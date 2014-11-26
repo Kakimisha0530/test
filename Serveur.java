@@ -8,7 +8,7 @@ import java.nio.channels.SocketChannel;
 
 public class Serveur extends Thread {
 	private ServerSocketChannel server;
-	private CharSequence rep = "ICY 200 OK \r\n";
+	private CharSequence rep = "ICY 200 OK ";
 	private Stations station;
 
 	public Serveur(Stations st) throws IOException {
@@ -37,9 +37,10 @@ public class Serveur extends Thread {
 					do{
 						try {
 							sendContent(sc);
-							Thread.sleep(10000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
+							Thread.sleep(3000);
+						}
+						catch (InterruptedException e) {
+							stop = true;
 						}
 					}
 					while(!(stop = !sc.isConnected()));
@@ -48,7 +49,8 @@ public class Serveur extends Thread {
 			}
 			catch (IOException e)
 			{
-				e.printStackTrace();
+				stop = true;
+				System.out.println("Stopping transmission !!");
 			}
 			finally{
 				try {
